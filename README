@@ -1,0 +1,43 @@
+Tareas App
+
+Aplicación web para gestionar tareas
+
+Descripción
+
+Esta aplicación web permite crear, leer, actualizar y eliminar (CRUD) tareas. Está diseñada para ser una herramienta simple y fácil de usar para gestionar tareas y proyectos.
+
+Funcionalidades
+
+Crear tareas nuevas con un nombre y un estado (pendiente o completada)
+Leer todas las tareas existentes, incluyendo su nombre, estado y fecha de creación
+Actualizar el estado de una tarea (pendiente o completada)
+Eliminar tareas existentes
+Tecnologías utilizadas
+
+PHP como lenguaje de programación
+MySQL como base de datos
+JSON como formato de intercambio de datos
+ADODB como seguridad de la aplicación 
+Requisitos
+
+Servidor web con PHP y MySQL
+Navegador web compatible con JSON
+Instalación
+
+Clona el repositorio en tu servidor web
+Crea una base de datos MySQL y ejecuta el script de creación de tablas (incluido en el repositorio)
+Configura el archivo db.php con tus credenciales de base de datos
+Accede a la aplicación a través de tu navegador web
+Uso
+
+Accede a la aplicación y haz clic en "Crear tarea" para crear una nueva tarea
+Introduce el nombre de la tarea y haz clic en "Crear"
+Haz clic en "Tareas" para ver todas las tareas existentes
+Haz clic en una tarea para ver sus detalles y actualizar su estado
+Licencia
+
+Esta aplicación es software libre y de código abierto, licenciada bajo la licencia MIT.
+
+Contribuciones
+
+Si deseas contribuir a esta aplicación, por favor, haz un fork del repositorio y envía un pull request con tus cambios.
