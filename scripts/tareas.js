@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  cargarTareas();
+  loadTasks();
 
   document.getElementById("formTarea").addEventListener("submit", function (e) {
     e.preventDefault();
-    const nombre = document.getElementById("nombreTarea").value;
-    crearTarea(nombre);
+    const name = document.getElementById("nombreTarea").value;
+    createTask(name);
   });
 });
 
@@ -15,8 +15,8 @@ descargarReporte.addEventListener("click", function () {
     window.location.href = "./resources/script.php";    
 })
 
-function crearTarea(nombre) {
-  if (nombre.trim() === "") {
+function createTask(name) {
+  if (name.trim() === "") {
     Notiflix.Report.warning(
       "Atención!",
       "No puedes agregar una tarea vacía. Por favor, ingresa un título para la tarea.",
@@ -29,7 +29,7 @@ function crearTarea(nombre) {
     fetch("./controllers/tareas.php", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `action=create&nombre=${encodeURIComponent(nombre.trim())}`,
+      body: `action=create&nombre=${encodeURIComponent(name.trim())}`,
     })
       .then((response) => response.json())
       .then((data) => {
@@ -39,7 +39,7 @@ function crearTarea(nombre) {
             data.message,
             "Entendido",
             function () {
-              cargarTareas();
+              loadTasks();
               document.getElementById("nombreTarea").value = "";
             }
           );
@@ -65,7 +65,7 @@ function crearTarea(nombre) {
 }
 
 
-function cargarTareas() {
+function loadTasks() {
   Notiflix.Loading.standard('Cargando tareas...');
 
   fetch("./controllers/tareas.php")
@@ -88,7 +88,7 @@ function cargarTareas() {
                     <td>${tarea.name}</td>
                     <td>${tarea.creation_date	}</td>
                     <td>
-                        <select class="form-select" onchange="actualizarEstado(${tarea.id}, this.value)">
+                        <select class="form-select" onchange="updateStatus(${tarea.id}, this.value)">
                             <option value="1" ${
                               tarea.estado	 === "Pendiente" ? "selected" : ""
                             }>Pendiente</option>
@@ -100,7 +100,7 @@ function cargarTareas() {
                             }>Cancelada</option>
                         </select>
                     </td>
-                    <td><button class="btn btn-danger" onclick="eliminarTarea(${tarea.id})">Eliminar</button></td>
+                    <td><button class="btn btn-danger" onclick="deleteTask(${tarea.id})">Eliminar</button></td>
                 </tr>`;
         });
         Notiflix.Notify.success("Tareas cargadas correctamente.");
@@ -115,19 +115,20 @@ function cargarTareas() {
     });
 }
 
-function actualizarEstado(id, estado_id) {
+function updateStatus(id, status_id) {
   Notiflix.Loading.standard('Actualizando estado...');
 
   fetch("./controllers/tareas.php", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `action=update&id=${id}&estado_id=${estado_id}`,
+    body: `action=update&id=${id}&estado_id=${status_id }`,
   })
     .then((response) => response.json())
     .then((data) => {
+
       Notiflix.Loading.remove();
 
-      cargarTareas();
+      loadTasks();
 
       if (data.success) {
         Notiflix.Notify.success(data.message);
@@ -143,7 +144,7 @@ function actualizarEstado(id, estado_id) {
 }
 
 
-function eliminarTarea(id) {
+function deleteTask(id) {
   Notiflix.Confirm.show(
     "Atención!",
     "¿Estás seguro de eliminar esta tarea?",
@@ -162,7 +163,7 @@ function eliminarTarea(id) {
           } else {
             Notiflix.Report.failure("Error", data.message, "Entiendo");
           }
-          cargarTareas();
+          loadTasks();
         })
         .catch((error) => {
           Notiflix.Report.failure("Error", "Ocurrió un problema al intentar eliminar la tarea.", "Entiendo");

@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'delete') {
     $id = $_POST['id'];
     
-    $sql = "DELETE FROM task WHERE id = ?";
+    $sql = "DELETE FROM tasks WHERE id = ?";
     $stmt = $conn->Prepare($sql);
 
     $success = $conn->Execute($stmt, [$id]);
